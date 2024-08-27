@@ -38,7 +38,7 @@ async function storeToIpfsCtrl(req, res, next) {
 }
 
 async function generateDonationSnap(req, res, next) {
-
+  const { imageUrl = 'https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg', targetAddress = '0xBB17Fe8cb03EFd960409E8fE79a780cA00797612' } = req.body;
   const id = makeid() 
   const iframe = {
     html: `
@@ -107,11 +107,15 @@ async function generateDonationSnap(req, res, next) {
           background-color: #0d8ddb;
         }
 
+        .hiddenInput {
+          display: none;
+        }
+
       </style>
         
         <div class="donationContainer">
             <div class="content">
-              <img src="https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg" alt="Background Image" />
+              <img src="${imageUrl}" alt="Background Image" />
               <label for="fromNetwork">From Network:</label>
               <select id="fromNetwork">
                   <option value="1">Optimism Sepolia</option>
@@ -126,12 +130,17 @@ async function generateDonationSnap(req, res, next) {
               </select>
               
               <input placeholder="Amount" value="" type="text" id="input${id}">
-              
+
+              <input placeholder="Recipient Address" type="text" id="Recipient${id}" class="hiddenInput" value="${targetAddress}" />
+
               <button id="dugme${id}">Send</button>
             </div>
         </div>`,
     js: `
         console.log('Dobar eval')
+
+        const recipientAddress = document.getElementById("Recipient${id}").value;
+
         async function showAlert() {
             const recipient = document.getElementById("input${id}").value;
             console.log(window.ethereum);
@@ -147,7 +156,7 @@ async function generateDonationSnap(req, res, next) {
                     const signer = provider.getSigner();
                     console.log(await signer.getAddress());
                     const CONTRACT = new ethers.Contract("0xBB17Fe8cb03EFd960409E8fE79a780cA00797612", ["function sendCrossChainDeposit(uint16 targetChain, address targetHelloToken, address recipient, uint256 amount, address token) public payable"], signer);
-                    const tx = await CONTRACT.sendCrossChainDeposit(10003, "0xa6A0622622A8C64cca2098b60b248de7cA47bd6E", "0x94F2840338d04cE69e3bcb1cf19B2e802dA1202F", ethers.utils.parseEther("1"), "0xE0AF8e4ED2F6451faDEd4DffD48Bdf22C743Bd45", {value: "40143040000000"});
+                    const tx = await CONTRACT.sendCrossChainDeposit(10003, "0xa6A0622622A8C64cca2098b60b248de7cA47bd6E", recipientAddress, ethers.utils.parseEther("1"), "0xE0AF8e4ED2F6451faDEd4DffD48Bdf22C743Bd45", {value: "28673600000000"});
 
                     const receipt = await tx.wait();
                     const hash = receipt.transactionHash;

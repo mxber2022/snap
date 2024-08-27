@@ -7,7 +7,6 @@ function Template() {
   // Initial states for target address and image URL
   const [targetAddress, setTargetAddress] = useState('0xBB17Fe8cb03EFd960409E8fE79a780cA00797612');
   const [imageUrl, setImageUrl] = useState('https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg');
-  const [amount, setAmount] = useState('');
   const [response, setResponse] = useState('');
 
   // Common styles
@@ -82,13 +81,17 @@ function Template() {
 
     const data = {
       targetAddress,
-      imageUrl,
-      amount,
+      imageUrl
     };
 
     try {
-      const response = await axios.post('https://your-api-endpoint.com/save-config', data);
-      setResponse(`Success: ${response.data.message}`);
+      const response = await axios.post('http://localhost:8000/generateDonation', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      console.log(response);
+      setResponse(`Success: ${response.data}`);
     } catch (error) {
       setResponse(`Error: ${error}`);
     }
@@ -116,8 +119,6 @@ function Template() {
 
           <input
             placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
             type="text"
             id="inputOriginal"
           />
@@ -150,8 +151,6 @@ function Template() {
 
           <input
             placeholder="Amount"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
             type="text"
             id="inputUpdated"
           />
@@ -168,9 +167,6 @@ function Template() {
       {originalIframe}
 
       <h2>Customize Your Donation Snap</h2>
-
-      <h2>Updated Donation Snap</h2>
-      {updatedIframe}
       <form onSubmit={handleSubmit}>
         <div>
           <label>Target Address:</label>
@@ -190,12 +186,17 @@ function Template() {
           />
         </div>
 
-        <button type="submit">Save </button>
+        <h2>Updated Donation Snap</h2>
+      {updatedIframe}
+      
+        <button type="submit">Save Configuration</button>
       </form>
+
 
       {response && <div>{response}</div>}
     </div>
   );
 }
+
 
 export default Template;
