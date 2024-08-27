@@ -38,8 +38,8 @@ async function storeToIpfsCtrl(req, res, next) {
 }
 
 async function generateDonationSnap(req, res, next) {
-  // 1) Generate HTML for Transfer Blink
-  const id = makeid() // Da ne bi bagovalo sa dva ista tvita koji linkuju ka ovom blinku
+
+  const id = makeid() 
   const iframe = {
     html: `
       <style>
