@@ -42,87 +42,93 @@ async function generateDonationSnap(req, res, next) {
   const id = makeid() // Da ne bi bagovalo sa dva ista tvita koji linkuju ka ovom blinku
   const iframe = {
     html: `
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                background-color: #f4f4f4;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
-                margin: 0;
-            }
-            .donation-container {
-                max-width: 400px;
-                margin: 0 auto;
-                padding: 20px;
-                border: 1px solid #ccc;
-                border-radius: 10px;
-                background-color: #f9f9f9;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            }
-            .donation-container h1 {
-                color: #333;
-                text-align: center;
-                font-size: 24px;
-                margin-bottom: 10px;
-            }
-            .donation-container p {
-                color: #666;
-                text-align: center;
-                font-size: 16px;
-                margin-bottom: 20px;
-            }
-            .donation-container label {
-                display: block;
-                margin-bottom: 5px;
-                font-weight: bold;
-            }
-            .donation-container select,
-            .donation-container input {
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 15px;
-                border: 1px solid #ccc;
-                border-radius: 5px;
-                box-sizing: border-box;
-            }
-            .donation-container button {
-                width: 100%;
-                padding: 10px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 5px;
-                cursor: pointer;
-                font-size: 16px;
-                transition: background-color 0.3s;
-            }
-            .donation-container button:hover {
-                background-color: #0056b3;
-            }
-        </style>
+      <style>
+
+        .donationContainer {
+          width: 100%;
+          max-width: 350px;
+          margin: 0 auto;
+          padding: 15px;
+          border: 1px solid #e1e8ed;
+          border-radius: 10px;
+          background-color: #f5f8fa;
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .content {
+          background-color: #f7f9fa;
+          border-radius: 12px;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+          margin-top: 5px;
+          width: 100%;
+          max-width: 320px;
+        }
+
+        .donationContainer img {
+          width: 100%;
+          max-width: 600px;
+          height: auto;
+          object-fit: cover;
+          border-radius: 15px;
+          margin-bottom: -5px;
+        }
         
-        <div class="donation-container">
-            <h1>Please Donate</h1>
-            <p>For social cause</p>
-            
-            <label for="fromNetwork">From Network:</label>
-            <select id="fromNetwork">
-                <option value="1">Optimism Sepolia</option>
-                <option value="3">Ropsten Testnet</option>
-                <option value="4">Rinkeby Testnet</option>
-                <option value="5">Goerli Testnet</option>
-            </select>
-            
-            <label for="toNetwork">To Network:</label>
-            <select id="toNetwork">
-                <option value="sepolia">Ethereum Sepolia</option>
-            </select>
-            
-            <input placeholder="Amount" value="" type="text" id="input${id}">
-            
-            <button id="dugme${id}">Send</button>
+        .donationContainer label {
+          display: block;
+          margin-bottom: 3px;
+          font-weight: bold;
+          color: #14171a;
+          font-size: 14px;
+        }
+        .donationContainer select,
+        .donationContainer input {
+          width: 100%;
+          padding: 7px;
+          margin-bottom: 8px;
+          border: 1px solid #ccd6dd;
+          border-radius: 4px;
+          box-sizing: border-box;
+          font-size: 14px;
+        }
+        .donationContainer button {
+          width: 100%;
+          padding: 8px;
+          background-color: #1da1f2;
+          color: white;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+          font-size: 14px;
+          transition: background-color 0.3s;
+        }
+        .donationContainer button:hover {
+          background-color: #0d8ddb;
+        }
+
+      </style>
+        
+        <div class="donationContainer">
+            <div class="content">
+              <img src="https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg" alt="Background Image" />
+              <label for="fromNetwork">From Network:</label>
+              <select id="fromNetwork">
+                  <option value="1">Optimism Sepolia</option>
+                  <option value="3">Ropsten Testnet</option>
+                  <option value="4">Rinkeby Testnet</option>
+                  <option value="5">Goerli Testnet</option>
+              </select>
+              
+              <label for="toNetwork">To Network:</label>
+              <select id="toNetwork">
+                  <option value="sepolia">Ethereum Sepolia</option>
+              </select>
+              
+              <input placeholder="Amount" value="" type="text" id="input${id}">
+              
+              <button id="dugme${id}">Send</button>
+            </div>
         </div>`,
     js: `
         console.log('Dobar eval')
