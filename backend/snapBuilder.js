@@ -203,4 +203,180 @@ async function generateDonationSnap(req, res, next) {
 }
 
 
-module.exports = { helloWorldCtrl, generateDonationSnap, storeToIpfsCtrl }
+async function fetchGraphQLData() {
+  const query = `
+      query MyQuery {
+          marketCreateds {
+              marketId
+              outcomes
+              question
+              imageUri
+          }
+      }
+  `;
+
+  const url = 'https://api.goldsky.com/api/public/project_clzhsxd1aulmx01zzbhjb8f9y/subgraphs/friendtech-arbitrum-sepolia/1.0/gn';
+
+  try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+      });
+      const result = await response.json();
+      return result.data.marketCreateds || [];
+  } catch (error) {
+      console.error('Error fetching data:', error);
+      return [];
+  }
+}
+
+async function generatePredictionSnap(req, res, next) {
+  const data = await fetchGraphQLData();
+  const id = makeid() 
+  const iframe = {
+    html: `
+      <style>
+                    .donationContainer {
+                        width: 100%;
+                        max-width: 350px;
+                        margin: 0 auto;
+                        padding: 15px;
+                        border: 1px solid #e1e8ed;
+                        border-radius: 10px;
+                        background-color: #f5f8fa;
+                        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                    }
+                    .content {
+                        background-color: #f7f9fa;
+                        border-radius: 12px;
+                        padding: 10px;
+                        display: flex;
+                        flex-direction: column;
+                        gap: 5px;
+                        margin-top: 5px;
+                        width: 100%;
+                        max-width: 320px;
+                    }
+                    .donationContainer img {
+                        width: 100%;
+                        max-width: 600px;
+                        height: auto;
+                        object-fit: cover;
+                        border-radius: 15px;
+                        margin-bottom: -5px;
+                    }
+                    .donationContainer label {
+                        display: block;
+                        margin-bottom: 3px;
+                        font-weight: bold;
+                        color: #14171a;
+                        font-size: 14px;
+                    }
+                    .donationContainer input {
+                        width: 100%;
+                        padding: 7px;
+                        margin-bottom: 8px;
+                        border: 1px solid #ccd6dd;
+                        border-radius: 4px;
+                        box-sizing: border-box;
+                        font-size: 14px;
+                    }
+                    .donationContainer button {
+                        width: 100%;
+                        padding: 8px;
+                        background-color: #1da1f2;
+                        color: white;
+                        border: none;
+                        border-radius: 4px;
+                        cursor: pointer;
+                        font-size: 14px;
+                        transition: background-color 0.3s;
+                        margin-bottom: 5px;
+                    }
+                    .donationContainer button:hover {
+                        background-color: #0d8ddb;
+                    }
+                    .hiddenInput {
+                        display: none;
+                    }
+                </style>
+                <div class="donationContainer">
+                    <div class="content">
+                        ${data.map(market => {
+                            // Ensure outcomes is treated as an array of strings
+                            const outcomes = Array.isArray(market.outcomes) ? market.outcomes : (market.outcomes ? market.outcomes.split(',') : []);
+                            return `
+                                <div>
+                                    <img src="${market.imageUri}?raw=true" alt="Market Image" />
+                                    <input type="text" id="question${market.marketId}" value="${market.question}" readonly />
+                                    <input placeholder="Amount" value="" type="text" id="input${id}">
+                                    ${outcomes.map(outcome => `
+                                        <button id="dugme${id}" type="button" class="outcomeButton">${outcome}</button>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                </div>`,
+    js: `
+
+
+        console.log('Dobar eval')
+        
+                async function showAlert() {
+                    const recipient = document.getElementById("input${id}").value;
+                    console.log(window.ethereum);
+                    if (typeof window.ethereum !== 'undefined') {
+                        try {
+                            const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+                            const publicKey = accounts[0];
+                            const amount = "0x" + (1e18).toString(16);
+                            const provider = new ethers.providers.Web3Provider(window.ethereum);
+                            const signer = provider.getSigner();
+                            console.log(await signer.getAddress());
+                            const CONTRACT = new ethers.Contract("0xaaa906c8c2720c50b69a5ba54b44253ea1001c98", ["function sendCrossChainDeposit(uint16 targetChain, address targetHelloToken, address recipient, uint256 amount, address token, uint256 marketId, uint256 outcomeIndex) public payable"], signer);
+                            const tx = await CONTRACT.sendCrossChainDeposit(10003, "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", 1, "0x0ee7F43c91Ca54DEEFb58B261A454B9E8b4FEe8B", 1, 1, {value: ethers.BigNumber.from(BigInt("18000000000000000"))});
+                            const receipt = await tx.wait();
+                            const hash = receipt.transactionHash;
+                            alert(\`Transaction Sent! Hash: \${hash}\`);
+                            const checkTransactionStatus = async (hash) => {
+                                const receipt = await ethereum.request({
+                                    method: 'eth_getTransactionReceipt',
+                                    params: [hash],
+                                });
+                                if (receipt && receipt.blockNumber) {
+                                    alert('Transaction Completed!');
+                                } else {
+                                    setTimeout(() => checkTransactionStatus(hash), 1000);
+                                }
+                            };
+                            checkTransactionStatus(hash);
+                        } catch (error) {
+                            alert(\`Error: \${error.message}\`);
+                        }
+                    } else {
+                        alert('MetaMask is not installed');
+                    }
+                }
+                document.getElementById('dugme${id}').addEventListener('click', showAlert);
+    `,
+}
+  // step 2: Store the HTML on IPFS
+  let cid
+  try {
+    cid = await publishToIPFS(iframe)
+    console.log(`Transfer Blink published to IPFS with CID: ${cid}`)
+  } catch (error) {
+    console.log(error)
+  }
+
+  // step 3: Send the IPFS link to the user
+  const ipfsLink = `https://gateway.ipfs.io/ipfs/${cid}`
+  res.send('snap generated: ' + ipfsLink)
+
+  next()
+}
+
+
+module.exports = { helloWorldCtrl, generateDonationSnap, generatePredictionSnap, storeToIpfsCtrl }
