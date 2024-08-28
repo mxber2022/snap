@@ -1,0 +1,28 @@
+.donation1 {
+    
+    padding: 8rem 0;
+    color: #fff;
+    
+}
+
+.donationContainer1 {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    
+}
+
+.Customize {
+    padding-left: 50px;
+}
+
+.response {
+    padding-top: 100px;
+    display: flex;
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    color: #000;
+    font-size: large;
+    font-family: 'Nunito', sans-serif !important;
+
+}
