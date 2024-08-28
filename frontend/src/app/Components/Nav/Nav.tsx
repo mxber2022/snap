@@ -33,6 +33,12 @@ function Nav() {
                         </Link>
                     </div>
 
+                    <div >
+                        <Link href="/Bet" style={{ color: 'black', textDecoration: 'none' }}>
+                            Bet
+                        </Link>
+                    </div>
+
                 </div>
                 <div className="nav__right">
                 </div>
