@@ -1,8 +1,9 @@
 import Image from "next/image";
-import Template from "./Components/Template/Template";
+import Nav from "./Components/Nav/Nav";
 
 export default function Home() {
   return (
-    <Template />
+    <>
+    </>
   );
 }
