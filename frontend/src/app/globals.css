@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -42,6 +43,8 @@ body {
 }
 
 h1 {
+  font-size: large;
+  font-family: 'Nunito', sans-serif !important;
   text-align: center;
   margin-bottom: 20px;
   color: #333;
@@ -65,6 +68,7 @@ input[type="text"] {
   border-radius: 4px;
   width: 100%;
   box-sizing: border-box;
+  color: black;
 }
 
 button {
@@ -92,4 +96,5 @@ p {
 
 body {
   background-color: #fff;
+  font-family: Consolas, monaco, monospace;
 }

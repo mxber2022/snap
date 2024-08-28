@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios'; // Make sure you have axios installed for API requests
+import "./styles.css"
 
 function Template() {
   // Initial states for target address and image URL
@@ -162,39 +163,47 @@ function Template() {
   );
 
   return (
-    <div>
-      <h1>Original Donation Snap</h1>
-      {originalIframe}
-
-      <h2>Customize Your Donation Snap</h2>
-      <form onSubmit={handleSubmit}>
+    <section className='donation1'>
+      <div className='donationContainer1'>
         <div>
-          <label>Target Address:</label>
-          <input 
-            type="text" 
-            value={targetAddress} 
-            onChange={(e) => setTargetAddress(e.target.value)} 
-          />
+          <h1>Original Donation Snap</h1>
+          {originalIframe}
         </div>
 
-        <div>
-          <label>Image URL:</label>
-          <input 
-            type="text" 
-            value={imageUrl} 
-            onChange={(e) => setImageUrl(e.target.value)} 
-          />
+        <div className='Customize'>
+          <h1>Customize Your Donation Snap</h1>
+          {updatedIframe}
         </div>
 
-        <h2>Updated Donation Snap</h2>
-      {updatedIframe}
+        <div className='Customize'>  
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>Target Address:</label>
+              <input 
+                type="text" 
+                value={targetAddress} 
+                onChange={(e) => setTargetAddress(e.target.value)} 
+              />
+            </div>
+
+            <div>
+              <label>Image URL:</label>
+              <input 
+                type="text" 
+                value={imageUrl} 
+                onChange={(e) => setImageUrl(e.target.value)} 
+              />
+            </div>
+          
+            <button type="submit">Save Snap</button>
+          </form>
+        </div>      
+      </div>
       
-        <button type="submit">Save Configuration</button>
-      </form>
-
-
-      {response && <div>{response}</div>}
-    </div>
+      <div className='response'>
+          {response && <div>{response}</div>}
+      </div>
+    </section>
   );
 }
 
