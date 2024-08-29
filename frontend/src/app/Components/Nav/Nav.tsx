@@ -22,12 +22,6 @@ function Nav() {
                     </div>
 
                     <div >
-                        <Link href="/Vote" style={{ color: 'black', textDecoration: 'none' }}>
-                            Vote
-                        </Link>
-                    </div>
-
-                    <div >
                         <Link href="/Bridge" style={{ color: 'black', textDecoration: 'none' }}>
                             Bridge
                         </Link>
@@ -36,6 +30,12 @@ function Nav() {
                     <div >
                         <Link href="/Bet" style={{ color: 'black', textDecoration: 'none' }}>
                             Bet
+                        </Link>
+                    </div>
+
+                    <div >
+                        <Link href="/Vote" style={{ color: 'black', textDecoration: 'none' }}>
+                            Vote
                         </Link>
                     </div>
 
