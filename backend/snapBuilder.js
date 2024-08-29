@@ -203,10 +203,11 @@ async function generateDonationSnap(req, res, next) {
 }
 
 
-async function fetchGraphQLData() {
+async function fetchGraphQLData(marketId) {
+  console.log("marketId ", marketId);
   const query = `
-      query MyQuery {
-          marketCreateds {
+      query MyQuery($marketId: String!) {
+          marketCreateds(where: { marketId: $marketId }) {
               marketId
               outcomes
               question
@@ -219,9 +220,12 @@ async function fetchGraphQLData() {
 
   try {
       const response = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query })
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            query,
+            variables: { marketId }  // Passing the marketId variable
+        })
       });
       const result = await response.json();
       return result.data.marketCreateds || [];
@@ -232,7 +236,8 @@ async function fetchGraphQLData() {
 }
 
 async function generatePredictionSnap(req, res, next) {
-  const data = await fetchGraphQLData();
+  const { marketId } = req.body; 
+  const data = await fetchGraphQLData(marketId);
   const id = makeid() 
   const iframe = {
     html: `
@@ -273,6 +278,8 @@ async function generatePredictionSnap(req, res, next) {
                         color: #14171a;
                         font-size: 14px;
                     }
+
+                    .donationContainer select,  
                     .donationContainer input {
                         width: 100%;
                         padding: 7px;
@@ -292,13 +299,17 @@ async function generatePredictionSnap(req, res, next) {
                         cursor: pointer;
                         font-size: 14px;
                         transition: background-color 0.3s;
-                        margin-bottom: 5px;
+                        margin-bottom: 1px;
                     }
                     .donationContainer button:hover {
                         background-color: #0d8ddb;
                     }
                     .hiddenInput {
                         display: none;
+                    }
+
+                    .buttonx {
+                        display: flex;
                     }
                 </style>
                 <div class="donationContainer">
@@ -311,9 +322,11 @@ async function generatePredictionSnap(req, res, next) {
                                     <img src="${market.imageUri}?raw=true" alt="Market Image" />
                                     <input type="text" id="question${market.marketId}" value="${market.question}" readonly />
                                     <input placeholder="Amount" value="" type="text" id="input${id}">
-                                    ${outcomes.map(outcome => `
-                                        <button id="dugme${id}" type="button" class="outcomeButton">${outcome}</button>
-                                    `).join('')}
+                                    <div class="buttonx">
+                                      ${outcomes.map(outcome => `
+                                          <div> <button id="dugme${id}" type="button" class="outcomeButton">${outcome}</button> <div/>
+                                      `).join('')}
+                                    <div/>
                                 </div>
                             `;
                         }).join('')}
@@ -325,7 +338,7 @@ async function generatePredictionSnap(req, res, next) {
         console.log('Dobar eval')
         
                 async function showAlert() {
-                    const recipient = document.getElementById("input${id}").value;
+                    const amountToSend = document.getElementById("input${id}").value;
                     console.log(window.ethereum);
                     if (typeof window.ethereum !== 'undefined') {
                         try {
@@ -336,7 +349,7 @@ async function generatePredictionSnap(req, res, next) {
                             const signer = provider.getSigner();
                             console.log(await signer.getAddress());
                             const CONTRACT = new ethers.Contract("0xaaa906c8c2720c50b69a5ba54b44253ea1001c98", ["function sendCrossChainDeposit(uint16 targetChain, address targetHelloToken, address recipient, uint256 amount, address token, uint256 marketId, uint256 outcomeIndex) public payable"], signer);
-                            const tx = await CONTRACT.sendCrossChainDeposit(10003, "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", 1, "0x0ee7F43c91Ca54DEEFb58B261A454B9E8b4FEe8B", 1, 1, {value: ethers.BigNumber.from(BigInt("18000000000000000"))});
+                            const tx = await CONTRACT.sendCrossChainDeposit(10003, "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", "0x4EEc84B0f4Fb1c035013a673095b1E7e73ea63cc", ethers.utils.parseEther(amountToSend), "0x0ee7F43c91Ca54DEEFb58B261A454B9E8b4FEe8B", 1, 1, {value: ethers.BigNumber.from(BigInt("18000000000000000"))});
                             const receipt = await tx.wait();
                             const hash = receipt.transactionHash;
                             alert(\`Transaction Sent! Hash: \${hash}\`);
@@ -373,7 +386,7 @@ async function generatePredictionSnap(req, res, next) {
 
   // step 3: Send the IPFS link to the user
   const ipfsLink = `https://gateway.ipfs.io/ipfs/${cid}`
-  res.send('snap generated: ' + ipfsLink)
+  res.send('<snap ipfs://' + cid + ' snap>')
 
   next()
 }

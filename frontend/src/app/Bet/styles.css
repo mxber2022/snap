@@ -24,5 +24,76 @@
     color: #000;
     font-size: large;
     font-family: 'Nunito', sans-serif !important;
+}
 
+
+
+.donationContainer {
+    width: 100%;
+    max-width: 350px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #e1e8ed;
+    border-radius: 10px;
+    background-color: #f5f8fa;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.content {
+    background-color: #f7f9fa;
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-top: 5px;
+    width: 100%;
+    max-width: 320px;
+}
+.donationContainer img {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    object-fit: cover;
+    border-radius: 15px;
+    margin-bottom: -5px;
+}
+.donationContainer label {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: bold;
+    color: #14171a;
+    font-size: 14px;
+}
+
+.donationContainer select,  
+.donationContainer input {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 8px;
+    border: 1px solid #ccd6dd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+.donationContainer button {
+    width: 100%;
+    padding: 8px;
+    background-color: #1da1f2;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-bottom: 1px;
+}
+.donationContainer button:hover {
+    background-color: #0d8ddb;
+}
+.hiddenInput {
+    display: none;
+}
+
+.buttonx {
+    display: flex;
 }
