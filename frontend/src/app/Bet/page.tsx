@@ -73,24 +73,23 @@ const Bet: React.FC = () => {
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
-
-    // const data = { targetAddress, imageUrl };
-
-    // try {
-    //   const response = await axios.post('http://localhost:8000/generateDonation', data, {
-    //     headers: { 'Content-Type': 'application/json' }
-    //   });
-    //   setResponse(`Success: ${response.data}`);
-    // } catch (error) {
-    //   setResponse(`Error: ${error}`);
-    // }
+    const data = { marketId: tokenId };
+  
+    try {
+      const response = await axios.post('http://localhost:8000/generatePrediction', data, {
+        headers: { 'Content-Type': 'application/json' }
+      });
+      setResponse(`Success: ${response.data}`);
+    } catch (error) {
+      setResponse(`Error: ${error}`);
+    }
   };
 
   return (
     <section className='donation1'>
       <div className='donationContainer1'>
         <div>
-          <h1>Original Donation Snap</h1>
+          <h1>Original Prediction Snap</h1>
           <div className="donationContainer">
             <div className="content">
               {data.map(market => {
@@ -117,7 +116,7 @@ const Bet: React.FC = () => {
 
               
         <div className='Customize'>
-          <h1>Customize Your Donation Snap</h1>
+          <h1>Customize Your Prediction Snap</h1>
           <div className="donationContainer">
             <div className="content">
               {customData.map(market => {
