@@ -5,8 +5,6 @@ import axios from 'axios'; // Make sure you have axios installed for API request
 import "./styles.css"
 
 function Bridge() {
-  // Initial states for target address and image URL
-  const [targetAddress, setTargetAddress] = useState('0xBB17Fe8cb03EFd960409E8fE79a780cA00797612');
   const [imageUrl, setImageUrl] = useState('https://sapphire-following-turkey-778.mypinata.cloud/ipfs/QmbMiZ218aAZXLgtyxgP51kP1NZCsqg8rWj5MGwt47L8oS');
   const [response, setResponse] = useState('');
 
@@ -81,7 +79,6 @@ function Bridge() {
     event.preventDefault();
 
     const data = {
-      targetAddress,
       imageUrl
     };
 
@@ -191,15 +188,6 @@ function Bridge() {
 
         <div className='Customize'>  
           <form onSubmit={handleSubmit}>
-            <div>
-              <label>Target Address:</label>
-              <input 
-                type="text" 
-                value={targetAddress} 
-                onChange={(e) => setTargetAddress(e.target.value)} 
-              />
-            </div>
-
             <div>
               <label>Image URL:</label>
               <input 

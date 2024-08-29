@@ -7,7 +7,7 @@ import "./styles.css"
 function Donate() {
   // Initial states for target address and image URL
   const [targetAddress, setTargetAddress] = useState('0xBB17Fe8cb03EFd960409E8fE79a780cA00797612');
-  const [imageUrl, setImageUrl] = useState('https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg');
+  const [imageUrl, setImageUrl] = useState('https://sapphire-following-turkey-778.mypinata.cloud/ipfs/QmXXXABgSKn9umt6censVx2EhjLkaxLJw5LD2dYKH3nuxq');
   const [response, setResponse] = useState('');
 
   // Common styles
@@ -104,7 +104,7 @@ function Donate() {
       <style>{commonStyles}</style>
       <div className="donationContainer">
         <div className="content">
-          <img src="https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg" alt="Background Image" />
+          <img src="https://sapphire-following-turkey-778.mypinata.cloud/ipfs/QmXXXABgSKn9umt6censVx2EhjLkaxLJw5LD2dYKH3nuxq" alt="Background Image" />
           <label htmlFor="fromNetwork">From Network:</label>
           <select id="fromNetwork">
             <option value="1">Optimism Sepolia</option>
@@ -178,7 +178,7 @@ function Donate() {
         <div className='Customize'>  
           <form onSubmit={handleSubmit}>
             <div>
-              <label>Target Address:</label>
+              <label>Donation Address:</label>
               <input 
                 type="text" 
                 value={targetAddress} 
