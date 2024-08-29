@@ -197,7 +197,7 @@ async function generateDonationSnap(req, res, next) {
 
   // step 3: Send the IPFS link to the user
   const ipfsLink = `https://gateway.ipfs.io/ipfs/${cid}`
-  res.send('snap generated: ' + ipfsLink)
+  res.send('<snap ipfs://' + cid + ' snap>')
 
   next()
 }
@@ -307,10 +307,6 @@ async function generatePredictionSnap(req, res, next) {
                     .hiddenInput {
                         display: none;
                     }
-
-                    .buttonx {
-                        display: flex;
-                    }
                 </style>
                 <div class="donationContainer">
                     <div class="content">
@@ -322,11 +318,9 @@ async function generatePredictionSnap(req, res, next) {
                                     <img src="${market.imageUri}?raw=true" alt="Market Image" />
                                     <input type="text" id="question${market.marketId}" value="${market.question}" readonly />
                                     <input placeholder="Amount" value="" type="text" id="input${id}">
-                                    <div class="buttonx">
                                       ${outcomes.map(outcome => `
-                                          <div> <button id="dugme${id}" type="button" class="outcomeButton">${outcome}</button> <div/>
+                                        <button id="dugme${id}" type="button" class="outcomeButton">${outcome}</button>
                                       `).join('')}
-                                    <div/>
                                 </div>
                             `;
                         }).join('')}

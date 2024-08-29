@@ -100,7 +100,7 @@ const Bet: React.FC = () => {
                     <img src={`${market.imageUri}?raw=true`} alt="Market" />
                     <input type="text" value={market.question} readOnly />
                     <input placeholder="Amount" type="text" id={`input${market.marketId}`} />
-                    <div className="buttonx">
+                    <div className="">
                       {outcomes.map((outcome, index) => (
                         <div key={index}>
                           <button type="button" className="outcomeButton">{outcome}</button>
@@ -127,7 +127,7 @@ const Bet: React.FC = () => {
                     <img src={`${market.imageUri}?raw=true`} alt="Market" />
                     <input type="text" value={market.question} readOnly />
                     <input placeholder="Amount" type="text" id={`input${market.marketId}`} />
-                    <div className="buttonx">
+                    <div className="">
                       {outcomes.map((outcome, index) => (
                         <div key={index}>
                           <button type="button" className="outcomeButton">{outcome}</button>
@@ -147,7 +147,7 @@ const Bet: React.FC = () => {
         <div className='Customize'>
           <form onSubmit={handleSubmit}>            
             <div>
-              <label>Token ID:</label>
+              <label>Market ID:</label>
               <input type="text" value={tokenId} onChange={(e) => setTokenId(e.target.value)} /> {/* New input for Token ID */}
             </div>
 
