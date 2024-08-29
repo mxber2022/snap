@@ -118,7 +118,7 @@ async function generateDonationSnap(req, res, next) {
               <img src="${imageUrl}" alt="Background Image" />
               <label for="fromNetwork">From Network:</label>
               <select id="fromNetwork">
-                  <option value="1">Optimism Sepolia</option>
+                  <option value="1">Ethereum Sepolia</option>
                   <option value="3">Ropsten Testnet</option>
                   <option value="4">Rinkeby Testnet</option>
                   <option value="5">Goerli Testnet</option>
@@ -126,7 +126,7 @@ async function generateDonationSnap(req, res, next) {
               
               <label for="toNetwork">To Network:</label>
               <select id="toNetwork">
-                  <option value="sepolia">Ethereum Sepolia</option>
+                  <option value="sepolia">Optimism Sepolia</option>
               </select>
               
               <input placeholder="Amount" value="" type="text" id="input${id}">
@@ -142,7 +142,8 @@ async function generateDonationSnap(req, res, next) {
         const recipientAddress = document.getElementById("Recipient${id}").value;
 
         async function showAlert() {
-            const recipient = document.getElementById("input${id}").value;
+            const amount = document.getElementById("input${id}").value;
+            console.log("amount is ", amount);
             console.log(window.ethereum);
             if (typeof window.ethereum !== 'undefined') {
                 try {
@@ -150,13 +151,13 @@ async function generateDonationSnap(req, res, next) {
                                     
                     const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
                     const publicKey = accounts[0];
-                    const amount = "0x" + (1e18).toString(16)
+                    //const amount = "0x" + (1e18).toString(16)
 
                     const provider = new ethers.providers.Web3Provider(window.ethereum);
                     const signer = provider.getSigner();
                     console.log(await signer.getAddress());
-                    const CONTRACT = new ethers.Contract("0xBB17Fe8cb03EFd960409E8fE79a780cA00797612", ["function sendCrossChainDeposit(uint16 targetChain, address targetHelloToken, address recipient, uint256 amount, address token) public payable"], signer);
-                    const tx = await CONTRACT.sendCrossChainDeposit(10003, "0xa6A0622622A8C64cca2098b60b248de7cA47bd6E", recipientAddress, ethers.utils.parseEther("1"), "0xE0AF8e4ED2F6451faDEd4DffD48Bdf22C743Bd45", {value: "28673600000000"});
+                    const CONTRACT = new ethers.Contract("0x51E92Aaac8e019d9E2903745dB2DB4fd119c3804", ["function sendCrossChainDeposit(uint16 targetChain, address targetHelloToken, address recipient, uint256 amount, address token) public payable"], signer);
+                    const tx = await CONTRACT.sendCrossChainDeposit(10005, "0x6B6d0aE4Ee2d2DDd5fF306463Cf969c6aF8242a2", recipientAddress, ethers.utils.parseEther(amount), "0xb204fd728AC0Aeee4D33C0Cb7f164E3072Fc3D9C", {value: "7596935852792"});
 
                     const receipt = await tx.wait();
                     const hash = receipt.transactionHash;

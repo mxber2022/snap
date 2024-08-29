@@ -107,7 +107,7 @@ function Donate() {
           <img src="https://sapphire-following-turkey-778.mypinata.cloud/ipfs/QmXXXABgSKn9umt6censVx2EhjLkaxLJw5LD2dYKH3nuxq" alt="Background Image" />
           <label htmlFor="fromNetwork">From Network:</label>
           <select id="fromNetwork">
-            <option value="1">Optimism Sepolia</option>
+            <option value="1">Ethereum Sepolia</option>
             <option value="3">Ropsten Testnet</option>
             <option value="4">Rinkeby Testnet</option>
             <option value="5">Goerli Testnet</option>
@@ -115,7 +115,7 @@ function Donate() {
 
           <label htmlFor="toNetwork">To Network:</label>
           <select id="toNetwork">
-            <option value="sepolia">Ethereum Sepolia</option>
+            <option value="sepolia">Optimism Sepolia</option>
           </select>
 
           <input
@@ -139,7 +139,7 @@ function Donate() {
           <img src={imageUrl} alt="Background Image" />
           <label htmlFor="fromNetwork">From Network:</label>
           <select id="fromNetwork">
-            <option value="1">Optimism Sepolia</option>
+            <option value="1">Ethereum Sepolia</option>
             <option value="3">Ropsten Testnet</option>
             <option value="4">Rinkeby Testnet</option>
             <option value="5">Goerli Testnet</option>
@@ -147,7 +147,7 @@ function Donate() {
 
           <label htmlFor="toNetwork">To Network:</label>
           <select id="toNetwork">
-            <option value="sepolia">Ethereum Sepolia</option>
+            <option value="sepolia">Optimism Sepolia</option>
           </select>
 
           <input
