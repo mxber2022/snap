@@ -16,7 +16,7 @@ function Nav() {
                     </div>
 
                     <div >
-                        <Link href="/Template" style={{ color: 'black', textDecoration: 'none' }}>
+                        <Link href="/Donate" style={{ color: 'black', textDecoration: 'none' }}>
                             Donate
                         </Link>
                     </div>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import axios from 'axios'; // Make sure you have axios installed for API requests
 import "./styles.css"
 
-function Template() {
+function Donate() {
   // Initial states for target address and image URL
   const [targetAddress, setTargetAddress] = useState('0xBB17Fe8cb03EFd960409E8fE79a780cA00797612');
   const [imageUrl, setImageUrl] = useState('https://t4.ftcdn.net/jpg/05/76/12/63/360_F_576126362_ll2tqdvXs27cDRRovBTmFCkPM9iX68iL.jpg');
@@ -208,4 +208,4 @@ function Template() {
 }
 
 
-export default Template;
+export default Donate;
