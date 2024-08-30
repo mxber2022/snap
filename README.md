@@ -1,4 +1,4 @@
-# Snap
+# SNAP
 
 Welcome to Snap! We aim to connect web3 technology with everyday web applications. Traditionally, engaging with blockchain technology involves using separate applications, which can hinder broad adoption. Snap eliminates these obstacles by enabling users to design custom components using HTML and JavaScript. These components are uploaded to IPFS and dynamically rendered by our browser extension, facilitating seamless blockchain interactions within common web environments.
 
