@@ -1,6 +1,7 @@
 "use client"
 import React, { useState } from "react";
 import "./styles.css"
+import Image from 'next/image';
 
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -12,7 +13,7 @@ export default function Home() {
                 <>
                     <p><strong>Name:</strong> MX</p>
                     <p><strong>Date:</strong> 30.Aug 2024</p>
-                    <p><strong>Goal: </strong>Snap for X, Facebook</p>
+                    <p><strong>Goal: </strong>Snap for X, Facebook, web2</p>
                 </>
             ),
         },
@@ -42,21 +43,74 @@ export default function Home() {
         },
 
         {
-            title: "Technical Architecture",
+            title: "Use Cases",
             content: (
                 <>
-                    <ul>
-                        <li><strong>Wormhole:</strong> </li>
-                    </ul>
+                    <p><strong></strong>1. On Boarding web2 users to web3</p>
+                    <p><strong></strong>2. Refferal bonus</p>
+                    <p><strong></strong>3. Mass audience reach X</p>
                 </>
             ),
         },
-  
+
+        
         {
-            title: "Demo",
+            title: "Technical Architecture",
             content: (
                 <>
-                    <h2>Demo</h2>
+                    <pre>
+        {`
+        +--------------------+        +----------------------+          +------------------------+          +-------------------------+
+        |   Frontend (UI)    |        |      Express.js      |          |      IPFS Gateway      |          |    Ethereum Network     |
+        |  - Web3 Frontend   | <----> |   - Receives SNAP    | <------> |   - Publish HTML/JS    | <------> |   - Smart Contracts     |
+        |  - Build SNAP      |        |   - GraphQL Client   |          |   - Return CID         |          |   - Handle Transactions |
+        |                    |        |   - IPFS Publisher   |          |                        |          |   - Cross-Chain wormhole|
+        +--------------------+        +----------------------+          +------------------------+          +-------------------------+
+
+        
+            +--------------------+        
+           |   Chrome           |       
+     |  - Plugin          | 
+                 |                    |             
+     +--------------------+ 
+             
+   
+         
+        `}
+                    </pre>
+                </>
+            ),
+        }
+        
+        
+        ,
+
+
+        {
+            title: "",
+            content: (
+                <>
+                <h2>Shoutout to the Emphi team, winners at ETH Global Brussels, who came up with the plugin idea!</h2>
+                <div  className="ephi" style={{ marginTop: "20px" }}>
+                    <Image 
+                        src="/ephi.jpg" 
+                        alt="Emphi team at ETH Global Brussels" 
+                        width={300} 
+                        height={450} 
+                    />
+                </div>
+            </>
+            ),
+        }
+        ,
+        
+        
+  
+        {
+            title: "Thank You",
+            content: (
+                <>
+                    <h2></h2>
                 </>
             ),
         },
