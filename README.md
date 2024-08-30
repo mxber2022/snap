@@ -27,6 +27,7 @@ Snap is designed to integrate smoothly with existing web3 technologies and web2 
 
 ## Technical Architecture
 
+<pre>
 {`
 +--------------------+        +----------------------+          +------------------------+          +-------------------------+
 |   Frontend (UI)    |        |      Express.js      |          |      IPFS Gateway      |          |    Ethereum Network     |
@@ -41,7 +42,7 @@ Snap is designed to integrate smoothly with existing web3 technologies and web2 
 |                    |             
 +--------------------+ 
 `}
-
+</pre>
 
 ## Getting Started
 
